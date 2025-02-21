@@ -38,9 +38,10 @@ namespace HomeInventory.Models
             var products = _databaseHelper.GetProducts();
             foreach (var product in products)
             {
+                Console.WriteLine(product.Name);
                 var item = new ListViewItem(product.Id.ToString());
                 item.SubItems.Add(product.Name);
-                item.SubItems.Add(product.Category);
+                item.SubItems.Add(product.Category.ToString());
                 item.SubItems.Add(product.Quantity.ToString());
                 item.SubItems.Add(product.Price.ToString("C"));  // Formats price as currency
                 item.SubItems.Add(DateTime.Now.ToString("yyyy-MM-dd")); // You may adjust the date here
