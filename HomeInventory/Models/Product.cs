@@ -13,7 +13,7 @@ namespace HomeInventory.Models
     {
         public int ID { get; set; }
         public string Name { get; set; }
-        public Categories Category { get; set; } // Category
+        public Categories Category { get; set; }
         public int Quantity { get; set; }
         public decimal Price { get; set; }
         public DateTime Date { get; set; }
@@ -43,10 +43,10 @@ namespace HomeInventory.Models
                 item.SubItems.Add(product.Name);
                 item.SubItems.Add(product.Category.ToString());
                 item.SubItems.Add(product.Quantity.ToString());
-                item.SubItems.Add(product.Price.ToString("C"));  // Formats price as currency
-                item.SubItems.Add(DateTime.Now.ToString("yyyy-MM-dd")); // You may adjust the date here
+                item.SubItems.Add(product.Price.ToString("C"));
+                item.SubItems.Add(DateTime.Now.ToString("yyyy-MM-dd"));
 
-                _listView.Items.Add(item);  // Add the item to the ListView
+                _listView.Items.Add(item);
             }
         }
         public void RemoveProduct(Product product)

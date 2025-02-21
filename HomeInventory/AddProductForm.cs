@@ -15,8 +15,10 @@ namespace HomeInventory
     public partial class AddProductForm : Form
     {
         private readonly DatabaseHelper databaseHelper;
-        public AddProductForm()
+        private readonly ListView mainFormListView;
+        public AddProductForm(ListView listView)
         {
+            mainFormListView = listView;
             databaseHelper = new DatabaseHelper();
             InitializeComponent();
             LoadCategories();
@@ -90,22 +92,47 @@ namespace HomeInventory
             }
             int categoryId = selectedCategory.Id;
 
-            if (DateBox.Value == null)
-            {
-                MessageBox.Show("Please select a date.");
-                return;
-            }
+            DateTime selectedDate = DateBox.Value;
 
             try
             {
-                databaseHelper.AddProduct(NameBox.Text, categoryId, price, quantity);
-                MessageBox.Show("Product added successfully!");
+                databaseHelper.AddProduct(NameBox.Text, categoryId, price, quantity, selectedDate);
+
+                RefreshListView();
+                this.Close();
             }
             catch (Exception ex)
             {
                 MessageBox.Show($"An error occurred: {ex.Message}");
             }
         }
+
+
+        private void RefreshListView()
+        {
+            mainFormListView.Items.Clear();
+
+            List<(int Id, string Name, string Category, decimal Price, int Quantity, string Date)> productList = databaseHelper.GetProducts();
+
+            List<Product> products = MapToProducts(productList);
+
+            foreach (var product in products)
+            {
+                var listViewItem = new ListViewItem(new string[]
+                {
+            product.ID.ToString(),
+            product.Name,
+            product.Category.Name,
+            product.Quantity.ToString(),
+            product.Price.ToString("C"),
+            product.Date.ToString("yyyy-MM-dd")
+                });
+                mainFormListView.Items.Add(listViewItem);
+            }
+        }
+
+
+
 
 
 
@@ -121,7 +148,7 @@ namespace HomeInventory
         {
             if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar) && e.KeyChar != '.')
             {
-                e.Handled = true; // Prevent input
+                e.Handled = true; 
             }
 
             if (e.KeyChar == '.' && (sender as TextBox).Text.Contains("."))
@@ -129,6 +156,30 @@ namespace HomeInventory
                 e.Handled = true;
             }
         }
+
+        private List<Product> MapToProducts(List<(int Id, string Name, string Category, decimal Price, int Quantity, string Date)> productList)
+        {
+            var products = new List<Product>();
+
+            foreach (var item in productList)
+            {
+                var product = new Product
+                {
+                    ID = item.Id,
+                    Name = item.Name,
+                    Category = new Categories { Name = item.Category },
+                    Price = item.Price,
+                    Quantity = item.Quantity,
+                    Date = DateTime.Parse(item.Date) 
+                };
+                products.Add(product);
+            }
+
+            return products;
+        }
+
+
+
         private void AddProductFormcs_Load(object sender, EventArgs e)
         {
 

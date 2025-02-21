@@ -19,7 +19,6 @@ D:\TU-VARNA\VIsemester\tsp_project\HomeInventory\HomeInventory\bin\Debug\System.
 D:\TU-VARNA\VIsemester\tsp_project\HomeInventory\HomeInventory\bin\Debug\System.Runtime.CompilerServices.Unsafe.xml
 D:\TU-VARNA\VIsemester\tsp_project\HomeInventory\HomeInventory\obj\Debug\HomeInventory.csproj.AssemblyReference.cache
 D:\TU-VARNA\VIsemester\tsp_project\HomeInventory\HomeInventory\obj\Debug\HomeInventory.AddProductForm.resources
-D:\TU-VARNA\VIsemester\tsp_project\HomeInventory\HomeInventory\obj\Debug\HomeInventory.Form1.resources
 D:\TU-VARNA\VIsemester\tsp_project\HomeInventory\HomeInventory\obj\Debug\HomeInventory.Properties.Resources.resources
 D:\TU-VARNA\VIsemester\tsp_project\HomeInventory\HomeInventory\obj\Debug\HomeInventory.csproj.GenerateResource.cache
 D:\TU-VARNA\VIsemester\tsp_project\HomeInventory\HomeInventory\obj\Debug\HomeInventory.csproj.CoreCompileInputs.cache
@@ -34,3 +33,5 @@ D:\TU-VARNA\VIsemester\tsp_project\HomeInventory\HomeInventory\bin\Debug\System.
 D:\TU-VARNA\VIsemester\tsp_project\HomeInventory\HomeInventory\bin\Debug\EntityFramework.xml
 D:\TU-VARNA\VIsemester\tsp_project\HomeInventory\HomeInventory\bin\Debug\EntityFramework.SqlServer.xml
 D:\TU-VARNA\VIsemester\tsp_project\HomeInventory\HomeInventory\bin\Debug\System.Data.SQLite.xml
+D:\TU-VARNA\VIsemester\tsp_project\HomeInventory\HomeInventory\obj\Debug\HomeInventory.EditForm.resources
+D:\TU-VARNA\VIsemester\tsp_project\HomeInventory\HomeInventory\obj\Debug\HomeInventory.HomeForm.resources

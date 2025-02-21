@@ -29,21 +29,23 @@ namespace TSPProject
             using (var connection = new SQLiteConnection(connectionString))
             {
                 connection.Open();
+
                 string categoryTableQuery = @"
-                    CREATE TABLE IF NOT EXISTS Category (
-                    Id INTEGER PRIMARY KEY AUTOINCREMENT, 
-                    Name TEXT UNIQUE NOT NULL
-                );";
+            CREATE TABLE IF NOT EXISTS Category (
+                Id INTEGER PRIMARY KEY AUTOINCREMENT, 
+                Name TEXT UNIQUE NOT NULL
+            );";
 
                 string productTableQuery = @"
-                    CREATE TABLE IF NOT EXISTS Product (
-                    Id INTEGER PRIMARY KEY AUTOINCREMENT, 
-                    Name TEXT NOT NULL, 
-                    CategoryId INTEGER NOT NULL, 
-                    Price REAL NOT NULL CHECK (Price >= 0), 
-                    Quantity INTEGER NOT NULL CHECK (Quantity >= 0), 
-                    FOREIGN KEY (CategoryId) REFERENCES Category(Id) ON DELETE CASCADE
-                );";
+            CREATE TABLE IF NOT EXISTS Product (
+                Id INTEGER PRIMARY KEY AUTOINCREMENT, 
+                Name TEXT NOT NULL, 
+                CategoryId INTEGER NOT NULL, 
+                Price REAL NOT NULL CHECK (Price >= 0), 
+                Quantity INTEGER NOT NULL CHECK (Quantity >= 0),
+                Date TEXT NOT NULL,  -- Ensure the Date column is added
+                FOREIGN KEY (CategoryId) REFERENCES Category(Id) ON DELETE CASCADE
+            );";
 
                 using (var command = new SQLiteCommand(categoryTableQuery, connection))
                 {
@@ -56,6 +58,9 @@ namespace TSPProject
                 }
             }
         }
+
+
+
         public void AddCategory(string categoryName)
         {
             using (var connection = new SQLiteConnection(connectionString))
@@ -83,7 +88,7 @@ namespace TSPProject
                 }
             }
         }
-        public void AddProduct(string name, int categoryId, decimal price, int quantity)
+        public void AddProduct(string name, int categoryId, decimal price, int quantity, DateTime date)
         {
             if (string.IsNullOrWhiteSpace(name))
                 throw new ArgumentException("Product name cannot be empty.");
@@ -99,13 +104,14 @@ namespace TSPProject
                 using (var connection = new SQLiteConnection(connectionString))
                 {
                     connection.Open();
-                    string query = "INSERT INTO Product (Name, CategoryId, Price, Quantity) VALUES (@Name, @CategoryId, @Price, @Quantity);";
+                    string query = "INSERT INTO Product (Name, CategoryId, Price, Quantity, Date) VALUES (@Name, @CategoryId, @Price, @Quantity, @Date);";
                     using (var command = new SQLiteCommand(query, connection))
                     {
                         command.Parameters.AddWithValue("@Name", name);
                         command.Parameters.AddWithValue("@CategoryId", categoryId);
                         command.Parameters.AddWithValue("@Price", price);
                         command.Parameters.AddWithValue("@Quantity", quantity);
+                        command.Parameters.AddWithValue("@Date", date.ToString("yyyy-MM-dd"));
                         int rowsAffected = command.ExecuteNonQuery();
                         if (rowsAffected == 0)
                         {
@@ -117,30 +123,33 @@ namespace TSPProject
             catch (Exception ex)
             {
                 Console.WriteLine($"Error adding product: {ex.Message}");
-                throw; 
+                throw;
             }
         }
 
-        public void UpdateProduct(int productId, string name, int categoryId, decimal price, int quantity)
+
+        public void UpdateProduct(int productId, string name, int categoryId, decimal price, int quantity, DateTime date)
         {
             using (var connection = new SQLiteConnection(connectionString))
             {
                 connection.Open();
                 string query = @"
-                UPDATE Product 
-                SET Name = @Name, CategoryId = @CategoryId, Price = @Price, Quantity = @Quantity 
-                WHERE Id = @ProductId;";
+        UPDATE Product 
+        SET Name = @Name, CategoryId = @CategoryId, Price = @Price, Quantity = @Quantity, Date = @Date
+        WHERE Id = @ProductId;";
                 using (var command = new SQLiteCommand(query, connection))
                 {
                     command.Parameters.AddWithValue("@Name", name);
                     command.Parameters.AddWithValue("@CategoryId", categoryId);
                     command.Parameters.AddWithValue("@Price", price);
                     command.Parameters.AddWithValue("@Quantity", quantity);
+                    command.Parameters.AddWithValue("@Date", date.ToString("yyyy-MM-dd"));
                     command.Parameters.AddWithValue("@ProductId", productId);
                     command.ExecuteNonQuery();
                 }
             }
         }
+
 
         public void DeleteProduct(int productId)
         {
@@ -180,36 +189,37 @@ namespace TSPProject
             return categories;
         }
 
-        public List<(int Id, string Name, string Category, decimal Price, int Quantity)> GetProducts()
+        public List<(int Id, string Name, string Category, decimal Price, int Quantity, string Date)> GetProducts()
         {
-            List<(int, string, string, decimal, int)> products = new List<(int, string, string, decimal, int)>();
+            List<(int, string, string, decimal, int, string)> products = new List<(int, string, string, decimal, int, string)>();
             using (var connection = new SQLiteConnection(connectionString))
             {
                 connection.Open();
                 string query = @"
-                SELECT Product.Id, Product.Name, Category.Name AS Category, Product.Price, Product.Quantity 
-                FROM Product 
-                JOIN Category ON Product.CategoryId = Category.Id;";
+        SELECT Product.Id, Product.Name, Category.Name AS Category, Product.Price, Product.Quantity, Product.Date
+        FROM Product 
+        JOIN Category ON Product.CategoryId = Category.Id;";
 
                 using (var command = new SQLiteCommand(query, connection))
                 using (var reader = command.ExecuteReader())
                 {
                     while (reader.Read())
                     {
-                        products.Add((reader.GetInt32(0), reader.GetString(1), reader.GetString(2), reader.GetDecimal(3), reader.GetInt32(4)));
+                        products.Add((reader.GetInt32(0), reader.GetString(1), reader.GetString(2), reader.GetDecimal(3), reader.GetInt32(4), reader.GetString(5)));
                     }
                 }
             }
             return products;
         }
 
-        public List<(int Id, string Name, decimal Price, int Quantity)> GetProductsByCategory(int categoryId)
+
+        public List<(int Id, string Name, decimal Price, int Quantity, string Date)> GetProductsByCategory(int categoryId)
         {
-            List<(int, string, decimal, int)> products = new List<(int, string, decimal, int)>();
+            List<(int, string, decimal, int, string)> products = new List<(int, string, decimal, int, string)>();
             using (var connection = new SQLiteConnection(connectionString))
             {
                 connection.Open();
-                string query = "SELECT Id, Name, Price, Quantity FROM Product WHERE CategoryId = @CategoryId;";
+                string query = "SELECT Id, Name, Price, Quantity, Date FROM Product WHERE CategoryId = @CategoryId;";
                 using (var command = new SQLiteCommand(query, connection))
                 {
                     command.Parameters.AddWithValue("@CategoryId", categoryId);
@@ -217,12 +227,28 @@ namespace TSPProject
                     {
                         while (reader.Read())
                         {
-                            products.Add((reader.GetInt32(0), reader.GetString(1), reader.GetDecimal(2), reader.GetInt32(3)));
+                            products.Add((reader.GetInt32(0), reader.GetString(1), reader.GetDecimal(2), reader.GetInt32(3), reader.GetString(4)));
                         }
                     }
                 }
             }
             return products;
         }
+
+        public int GetCategoryId(string categoryName)
+        {
+            using (var connection = new SQLiteConnection(connectionString))
+            {
+                connection.Open();
+                string query = "SELECT Id FROM Category WHERE Name = @CategoryName";
+                using (var command = new SQLiteCommand(query, connection))
+                {
+                    command.Parameters.AddWithValue("@CategoryName", categoryName);
+                    object result = command.ExecuteScalar();
+                    return result != null ? Convert.ToInt32(result) : -1;
+                }
+            }
+        }
+
     }
 }
