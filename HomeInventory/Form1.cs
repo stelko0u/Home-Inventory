@@ -57,23 +57,30 @@ namespace HomeInventory
 
         private void DeleteButton_Click(object sender, EventArgs e)
         {
-            if (listView1.SelectedItems.Count > 0) // Проверяваме дали има избран елемент
+            if (listView1.SelectedItems.Count > 0) 
             {
-                int productId = Convert.ToInt32(listView1.SelectedItems[0].SubItems[0].Text); // Вземаме Id-то от първата колона
+                int productId = Convert.ToInt32(listView1.SelectedItems[0].SubItems[0].Text); 
+                var confirmResult = MessageBox.Show("Are you sure you want to delete this product?",
+                                                     "Confirm Delete Product",
+                                                     MessageBoxButtons.YesNo,
+                                                     MessageBoxIcon.Warning);
 
-                // Изтриваме продукта от базата данни
-                dbHelper.DeleteProduct(productId);
+                if (confirmResult == DialogResult.Yes)
+                {
+                    dbHelper.DeleteProduct(productId);
 
-                // Махаме избрания елемент от ListView
-                listView1.Items.Remove(listView1.SelectedItems[0]);
+                    listView1.Items.Remove(listView1.SelectedItems[0]);
 
-                MessageBox.Show("Продуктът е изтрит успешно.");
+                    // moje da go mahnem 
+                    MessageBox.Show("The product has been successfully deleted.", "Deletion Successful", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
             }
             else
             {
-                MessageBox.Show("Моля, изберете продукт за изтриване.");
+                MessageBox.Show("Please select a product to delete.");
             }
         }
+
 
     }
 }
