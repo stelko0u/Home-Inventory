@@ -9,8 +9,9 @@ namespace TSPProject
 {
     class DatabaseHelper
     {
-        private static string dbPath = @"D:\TU-VARNA\VIsemester\tsp_project\TSPProject\storage.db";
+        private static string dbPath = @"../../../storage.db";
         private static string connectionString = $"Data Source={dbPath};Version=3;";
+
 
 
         public DatabaseHelper()
