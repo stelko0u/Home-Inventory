@@ -3,7 +3,6 @@ using System;
 using System.Collections.Generic;
 using System.Data.SQLite;
 using System.IO;
-using HomeInventory.Models;
 
 namespace TSPProject
 {
