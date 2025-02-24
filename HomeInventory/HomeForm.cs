@@ -131,5 +131,11 @@ namespace HomeInventory
                 MessageBox.Show("Please select a product to edit.", "No Selection", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
         }
+
+        private void addCategoryToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            AddCategory addCategory = new AddCategory();
+            addCategory.ShowDialog();
+            }
     }
 }
