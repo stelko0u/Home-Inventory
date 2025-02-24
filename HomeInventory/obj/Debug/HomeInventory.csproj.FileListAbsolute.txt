@@ -35,3 +35,4 @@ D:\TU-VARNA\VIsemester\tsp_project\HomeInventory\HomeInventory\bin\Debug\EntityF
 D:\TU-VARNA\VIsemester\tsp_project\HomeInventory\HomeInventory\bin\Debug\System.Data.SQLite.xml
 D:\TU-VARNA\VIsemester\tsp_project\HomeInventory\HomeInventory\obj\Debug\HomeInventory.EditForm.resources
 D:\TU-VARNA\VIsemester\tsp_project\HomeInventory\HomeInventory\obj\Debug\HomeInventory.HomeForm.resources
+D:\TU-VARNA\VIsemester\tsp_project\HomeInventory\HomeInventory\obj\Debug\HomeInventory.AddCategory.resources
