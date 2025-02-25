@@ -31,6 +31,14 @@ namespace HomeInventory
             listView1.Columns.Add("Quantity", 70);
             listView1.Columns.Add("Price", 70);
             listView1.Columns.Add("Date", 120);
+
+            comboBox1.Items.Add("Price (Low to High)");
+            comboBox1.Items.Add("Price (High to Low)");
+            comboBox1.Items.Add("Quantity (Low to High)");
+            comboBox1.Items.Add("Quantity (High to Low)");
+            comboBox1.Items.Add("Date (Newest First)");
+            comboBox1.Items.Add("Date (Oldest First)");
+
             productManager = new ProductListManager(listView1);
             PopulateListView();
         }
@@ -136,6 +144,37 @@ namespace HomeInventory
         {
             AddCategory addCategory = new AddCategory();
             addCategory.ShowDialog();
+        }
+
+        private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            List<(int Id, string Name, string Category, decimal Price, int Quantity, string Date)> sortedProducts;
+            switch (comboBox1.SelectedIndex)
+            {
+                case 0: sortedProducts = dbHelper.GetProductsSortedByPrice(true); break;
+                case 1: sortedProducts = dbHelper.GetProductsSortedByPrice(false); break;
+                case 2: sortedProducts = dbHelper.GetProductsSortedByQuantity(true); break;
+                case 3: sortedProducts = dbHelper.GetProductsSortedByQuantity(false); break;
+                case 4: sortedProducts = dbHelper.GetProductsSortedByDate(true); break;
+                case 5: sortedProducts = dbHelper.GetProductsSortedByDate(false); break;
+                default: sortedProducts = dbHelper.GetProducts(); break;
             }
+            UpdateListView(sortedProducts);
+        }
+
+        private void UpdateListView(List<(int Id, string Name, string Category, decimal Price, int Quantity, string Date)> products)
+        {
+            listView1.Items.Clear();
+            foreach (var product in products)
+            {
+                ListViewItem item = new ListViewItem(product.Id.ToString());
+                item.SubItems.Add(product.Name);
+                item.SubItems.Add(product.Category);
+                item.SubItems.Add(product.Quantity.ToString());
+                item.SubItems.Add(product.Price.ToString("C"));
+                item.SubItems.Add(product.Date);
+                listView1.Items.Add(item);
+            }
+        }
     }
 }

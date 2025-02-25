@@ -250,5 +250,57 @@ namespace TSPProject
             }
         }
 
+
+        public List<(int Id, string Name, string Category, decimal Price, int Quantity, string Date)> GetProductsSortedByPrice(bool ascending)
+        {
+            string order = ascending ? "ASC" : "DESC";
+            string query = $@"
+        SELECT Product.Id, Product.Name, Category.Name AS Category, Product.Price, Product.Quantity, Product.Date
+        FROM Product 
+        JOIN Category ON Product.CategoryId = Category.Id
+        ORDER BY Product.Price {order};";
+            return GetSortedProducts(query);
+        }
+
+        public List<(int Id, string Name, string Category, decimal Price, int Quantity, string Date)> GetProductsSortedByQuantity(bool ascending)
+        {
+            string order = ascending ? "ASC" : "DESC";
+            string query = $@"
+        SELECT Product.Id, Product.Name, Category.Name AS Category, Product.Price, Product.Quantity, Product.Date
+        FROM Product 
+        JOIN Category ON Product.CategoryId = Category.Id
+        ORDER BY Product.Quantity {order};";
+            return GetSortedProducts(query);
+        }
+
+        public List<(int Id, string Name, string Category, decimal Price, int Quantity, string Date)> GetProductsSortedByDate(bool newestFirst)
+        {
+            string order = newestFirst ? "DESC" : "ASC";
+            string query = $@"
+        SELECT Product.Id, Product.Name, Category.Name AS Category, Product.Price, Product.Quantity, Product.Date
+        FROM Product 
+        JOIN Category ON Product.CategoryId = Category.Id
+        ORDER BY Product.Date {order};";
+            return GetSortedProducts(query);
+        }
+
+        private List<(int Id, string Name, string Category, decimal Price, int Quantity, string Date)> GetSortedProducts(string query)
+        {
+            List<(int, string, string, decimal, int, string)> products = new List<(int, string, string, decimal, int, string)>();
+            using (var connection = new SQLiteConnection(connectionString))
+            {
+                connection.Open();
+                using (var command = new SQLiteCommand(query, connection))
+                using (var reader = command.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        products.Add((reader.GetInt32(0), reader.GetString(1), reader.GetString(2), reader.GetDecimal(3), reader.GetInt32(4), reader.GetString(5)));
+                    }
+                }
+            }
+            return products;
+        }
+
     }
 }
