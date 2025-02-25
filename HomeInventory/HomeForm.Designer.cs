@@ -34,6 +34,7 @@
             this.EditButton = new System.Windows.Forms.Button();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.liveChartToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.addCategoryToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -41,7 +42,6 @@
             this.comboBox1 = new System.Windows.Forms.ComboBox();
             this.label1 = new System.Windows.Forms.Label();
             this.textBox1 = new System.Windows.Forms.TextBox();
-            this.liveChartToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -108,17 +108,23 @@
             this.fileToolStripMenuItem.Size = new System.Drawing.Size(46, 24);
             this.fileToolStripMenuItem.Text = "File";
             // 
+            // liveChartToolStripMenuItem
+            // 
+            this.liveChartToolStripMenuItem.Name = "liveChartToolStripMenuItem";
+            this.liveChartToolStripMenuItem.Size = new System.Drawing.Size(184, 26);
+            this.liveChartToolStripMenuItem.Text = "Live chart";
+            // 
             // addCategoryToolStripMenuItem
             // 
             this.addCategoryToolStripMenuItem.Name = "addCategoryToolStripMenuItem";
-            this.addCategoryToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.addCategoryToolStripMenuItem.Size = new System.Drawing.Size(184, 26);
             this.addCategoryToolStripMenuItem.Text = "Add Category";
             this.addCategoryToolStripMenuItem.Click += new System.EventHandler(this.addCategoryToolStripMenuItem_Click);
             // 
             // exitToolStripMenuItem
             // 
             this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-            this.exitToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.exitToolStripMenuItem.Size = new System.Drawing.Size(184, 26);
             this.exitToolStripMenuItem.Text = "Exit";
             this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
             // 
@@ -133,7 +139,7 @@
             // aboutUsToolStripMenuItem
             // 
             this.aboutUsToolStripMenuItem.Name = "aboutUsToolStripMenuItem";
-            this.aboutUsToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.aboutUsToolStripMenuItem.Size = new System.Drawing.Size(151, 26);
             this.aboutUsToolStripMenuItem.Text = "About us";
             // 
             // comboBox1
@@ -146,6 +152,7 @@
             this.comboBox1.Name = "comboBox1";
             this.comboBox1.Size = new System.Drawing.Size(169, 24);
             this.comboBox1.TabIndex = 6;
+            this.comboBox1.SelectedIndexChanged += new System.EventHandler(this.comboBox1_SelectedIndexChanged);
             // 
             // label1
             // 
@@ -162,12 +169,6 @@
             this.textBox1.Name = "textBox1";
             this.textBox1.Size = new System.Drawing.Size(148, 22);
             this.textBox1.TabIndex = 8;
-            // 
-            // liveChartToolStripMenuItem
-            // 
-            this.liveChartToolStripMenuItem.Name = "liveChartToolStripMenuItem";
-            this.liveChartToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
-            this.liveChartToolStripMenuItem.Text = "Live chart";
             // 
             // HomeForm
             // 
