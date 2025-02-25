@@ -32,6 +32,8 @@ namespace HomeInventory
             listView1.Columns.Add("Price", 70);
             listView1.Columns.Add("Date", 120);
 
+            LoadCategories();
+
             comboBox1.Items.Add("Price (Low to High)");
             comboBox1.Items.Add("Price (High to Low)");
             comboBox1.Items.Add("Quantity (Low to High)");
@@ -66,9 +68,9 @@ namespace HomeInventory
 
         private void DeleteButton_Click(object sender, EventArgs e)
         {
-            if (listView1.SelectedItems.Count > 0) 
+            if (listView1.SelectedItems.Count > 0)
             {
-                int productId = Convert.ToInt32(listView1.SelectedItems[0].SubItems[0].Text); 
+                int productId = Convert.ToInt32(listView1.SelectedItems[0].SubItems[0].Text);
                 var confirmResult = MessageBox.Show("Are you sure you want to delete this product?",
                                                      "Confirm Delete Product",
                                                      MessageBoxButtons.YesNo,
@@ -109,7 +111,7 @@ namespace HomeInventory
                     }
 
                     string priceText = selectedItem.SubItems[4].Text;
-                    priceText = priceText.Replace("$", "").Trim(); 
+                    priceText = priceText.Replace("$", "").Trim();
 
                     if (!decimal.TryParse(priceText, out decimal price))
                     {
@@ -142,7 +144,7 @@ namespace HomeInventory
 
         private void addCategoryToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            AddCategory addCategory = new AddCategory();
+            AddCategory addCategory = new AddCategory(this);
             addCategory.ShowDialog();
         }
 
@@ -174,6 +176,35 @@ namespace HomeInventory
                 item.SubItems.Add(product.Price.ToString("C"));
                 item.SubItems.Add(product.Date);
                 listView1.Items.Add(item);
+            }
+        }
+
+        public void LoadCategories()
+        {
+            DatabaseHelper dbHelper = new DatabaseHelper();
+            List<Categories> categories = dbHelper.GetCategories();
+
+            comboBox2.Items.Clear();
+
+            foreach (var category in categories)
+            {
+                comboBox2.Items.Add(category.Name);
+            }
+        }
+
+
+        private void comboBox2_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            string selectedCategoryName = comboBox2.SelectedItem?.ToString();
+
+            if (!string.IsNullOrEmpty(selectedCategoryName))
+            {
+                int categoryId = dbHelper.GetCategoryIdByName(selectedCategoryName);
+                if (categoryId != -1)
+                {
+                    List<(int Id, string Name, string Category, decimal Price, int Quantity, string Date)> filteredProducts = dbHelper.GetProductsByCategoryId(categoryId);
+                    UpdateListView(filteredProducts);
+                }
             }
         }
     }
