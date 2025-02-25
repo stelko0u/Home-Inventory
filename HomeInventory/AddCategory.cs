@@ -8,10 +8,12 @@ namespace HomeInventory
     public partial class AddCategory : Form
     {
         private DatabaseHelper dbHelper = new DatabaseHelper();
+        private HomeForm homeForm;
 
-        public AddCategory()
+        public AddCategory(HomeForm form)
         {
             InitializeComponent();
+            homeForm = form;
         }
 
 
@@ -35,11 +37,16 @@ namespace HomeInventory
                 MessageBox.Show("Category added successfully.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 textBox1.Clear();
                 this.Close();
+
+                homeForm.LoadCategories();
+
+                this.Close();
             }
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
+
     }
 }

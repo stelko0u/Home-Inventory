@@ -302,5 +302,60 @@ namespace TSPProject
             return products;
         }
 
+        public List<(int Id, string Name, string Category, decimal Price, int Quantity, string Date)> GetProductsByCategoryId(int categoryId)
+        {
+            List<(int, string, string, decimal, int, string)> products = new List<(int, string, string, decimal, int, string)>();
+
+            using (var connection = new SQLiteConnection(connectionString))
+            {
+                connection.Open();
+                string query = @"
+            SELECT p.Id, p.Name, c.Name AS Category, p.Price, p.Quantity, p.Date 
+            FROM Product p
+            JOIN Category c ON p.CategoryId = c.Id
+            WHERE p.CategoryId = @categoryId";
+
+                using (var command = new SQLiteCommand(query, connection))
+                {
+                    command.Parameters.AddWithValue("@categoryId", categoryId);
+
+                    using (var reader = command.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            products.Add((
+                                reader.GetInt32(0),
+                                reader.GetString(1),
+                                reader.GetString(2),
+                                reader.GetDecimal(3),
+                                reader.GetInt32(4),
+                                reader.GetString(5)
+                            ));
+                        }
+                    }
+                }
+            }
+            return products;
+        }
+
+
+        public int GetCategoryIdByName(string categoryName)
+        {
+            using (var connection = new SQLiteConnection(connectionString))
+            {
+                connection.Open();
+                string query = "SELECT Id FROM Category WHERE Name = @categoryName";
+
+                using (var command = new SQLiteCommand(query, connection))
+                {
+                    command.Parameters.AddWithValue("@categoryName", categoryName);
+
+                    object result = command.ExecuteScalar();
+
+                    return result != null ? Convert.ToInt32(result) : -1;
+                }
+            }
+        }
+
     }
 }
