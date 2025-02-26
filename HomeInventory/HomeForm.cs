@@ -34,14 +34,17 @@ namespace HomeInventory
 
             LoadCategories();
 
+            comboBox1.Items.Insert(0, "Original Order");
             comboBox1.Items.Add("Price (Low to High)");
             comboBox1.Items.Add("Price (High to Low)");
             comboBox1.Items.Add("Quantity (Low to High)");
             comboBox1.Items.Add("Quantity (High to Low)");
             comboBox1.Items.Add("Date (Newest First)");
             comboBox1.Items.Add("Date (Oldest First)");
+            comboBox1.SelectedIndex = 0;
 
             productManager = new ProductListManager(listView1);
+            textBox1.TextChanged += textBox1_TextChanged;
             PopulateListView();
         }
 
@@ -151,15 +154,22 @@ namespace HomeInventory
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
             List<(int Id, string Name, string Category, decimal Price, int Quantity, string Date)> sortedProducts;
-            switch (comboBox1.SelectedIndex)
+            if (comboBox1.SelectedIndex == 0)
             {
-                case 0: sortedProducts = dbHelper.GetProductsSortedByPrice(true); break;
-                case 1: sortedProducts = dbHelper.GetProductsSortedByPrice(false); break;
-                case 2: sortedProducts = dbHelper.GetProductsSortedByQuantity(true); break;
-                case 3: sortedProducts = dbHelper.GetProductsSortedByQuantity(false); break;
-                case 4: sortedProducts = dbHelper.GetProductsSortedByDate(true); break;
-                case 5: sortedProducts = dbHelper.GetProductsSortedByDate(false); break;
-                default: sortedProducts = dbHelper.GetProducts(); break;
+                sortedProducts = dbHelper.GetProducts();
+            }
+            else
+            {
+                switch (comboBox1.SelectedIndex)
+                {
+                    case 1: sortedProducts = dbHelper.GetProductsSortedByPrice(true); break;
+                    case 2: sortedProducts = dbHelper.GetProductsSortedByPrice(false); break;
+                    case 3: sortedProducts = dbHelper.GetProductsSortedByQuantity(true); break;
+                    case 4: sortedProducts = dbHelper.GetProductsSortedByQuantity(false); break;
+                    case 5: sortedProducts = dbHelper.GetProductsSortedByDate(true); break;
+                    case 6: sortedProducts = dbHelper.GetProductsSortedByDate(false); break;
+                    default: sortedProducts = dbHelper.GetProducts(); break;
+                }
             }
             UpdateListView(sortedProducts);
         }
@@ -185,27 +195,68 @@ namespace HomeInventory
             List<Categories> categories = dbHelper.GetCategories();
 
             comboBox2.Items.Clear();
+            comboBox2.Items.Add("All");
 
             foreach (var category in categories)
             {
                 comboBox2.Items.Add(category.Name);
+            }
+            if (comboBox2.Items.Count > 0)
+            {
+                comboBox2.SelectedIndex = 0;
             }
         }
 
 
         private void comboBox2_SelectedIndexChanged(object sender, EventArgs e)
         {
-            string selectedCategoryName = comboBox2.SelectedItem?.ToString();
+            string selectedItem = comboBox2.SelectedItem?.ToString();
 
-            if (!string.IsNullOrEmpty(selectedCategoryName))
+            if (string.IsNullOrEmpty(selectedItem)) return;
+
+            if (selectedItem == "All")
             {
-                int categoryId = dbHelper.GetCategoryIdByName(selectedCategoryName);
-                if (categoryId != -1)
+                List<(int Id, string Name, string Category, decimal Price, int Quantity, string Date)> allProducts = dbHelper.GetProducts();
+                UpdateListView(allProducts);
+            }
+            else
+            {
+                string selectedCategoryName = selectedItem;
+                if (!string.IsNullOrEmpty(selectedCategoryName))
                 {
-                    List<(int Id, string Name, string Category, decimal Price, int Quantity, string Date)> filteredProducts = dbHelper.GetProductsByCategoryId(categoryId);
-                    UpdateListView(filteredProducts);
+                    int categoryId = dbHelper.GetCategoryIdByName(selectedCategoryName);
+                    if (categoryId != -1)
+                    {
+                        List<(int Id, string Name, string Category, decimal Price, int Quantity, string Date)> filteredProducts = dbHelper.GetProductsByCategoryId(categoryId);
+                        UpdateListView(filteredProducts);
+                    }
                 }
             }
+        }
+
+        private void textBox1_TextChanged(object sender, EventArgs e)
+        {
+            string searchText = textBox1.Text.ToLower(); // Get search text, convert to lowercase
+
+            List<(int Id, string Name, string Category, decimal Price, int Quantity, string Date)> allProducts = dbHelper.GetProducts();
+
+            if (string.IsNullOrEmpty(searchText))
+            {
+                UpdateListView(allProducts); // Show all products if search text is empty
+                return;
+            }
+
+            List<(int Id, string Name, string Category, decimal Price, int Quantity, string Date)> filteredProducts = allProducts
+                .Where(product =>
+                    product.Name.ToLower().Contains(searchText) ||
+                    product.Category.ToLower().Contains(searchText) ||
+                    product.Id.ToString().Contains(searchText) ||
+                    product.Price.ToString().Contains(searchText) ||
+                    product.Quantity.ToString().Contains(searchText) ||
+                    product.Date.ToLower().Contains(searchText))
+                .ToList();
+
+            UpdateListView(filteredProducts);
         }
     }
 }
