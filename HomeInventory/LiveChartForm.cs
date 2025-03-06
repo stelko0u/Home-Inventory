@@ -15,13 +15,16 @@ namespace HomeInventory
 
         public LiveChartForm()
         {
+            this.AutoScaleMode = AutoScaleMode.Dpi;
             InitializeComponent();
             InitializeUI();
             InitializeCharts();
+
         }
 
         private void InitializeUI()
         {
+            this.AutoScaleMode = AutoScaleMode.Dpi;
             button1.Text = "Quantity Chart";
             button2.Text = "Price Chart";
         }
@@ -139,6 +142,11 @@ namespace HomeInventory
                 }
             }
             return products;
+        }
+
+        private void LiveChartForm_Load(object sender, EventArgs e)
+        {
+
         }
     }
 }

@@ -37,13 +37,12 @@
             this.liveChartToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.addCategoryToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.aboutUsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.comboBox1 = new System.Windows.Forms.ComboBox();
             this.label1 = new System.Windows.Forms.Label();
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.comboBox2 = new System.Windows.Forms.ComboBox();
             this.label2 = new System.Windows.Forms.Label();
+            this.label3 = new System.Windows.Forms.Label();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -92,11 +91,10 @@
             // 
             this.menuStrip1.ImageScalingSize = new System.Drawing.Size(20, 20);
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.fileToolStripMenuItem,
-            this.helpToolStripMenuItem});
+            this.fileToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(927, 28);
+            this.menuStrip1.Size = new System.Drawing.Size(848, 28);
             this.menuStrip1.TabIndex = 5;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -113,37 +111,23 @@
             // liveChartToolStripMenuItem
             // 
             this.liveChartToolStripMenuItem.Name = "liveChartToolStripMenuItem";
-            this.liveChartToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.liveChartToolStripMenuItem.Size = new System.Drawing.Size(184, 26);
             this.liveChartToolStripMenuItem.Text = "Live chart";
             this.liveChartToolStripMenuItem.Click += new System.EventHandler(this.liveChartToolStripMenuItem_Click);
             // 
             // addCategoryToolStripMenuItem
             // 
             this.addCategoryToolStripMenuItem.Name = "addCategoryToolStripMenuItem";
-            this.addCategoryToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.addCategoryToolStripMenuItem.Size = new System.Drawing.Size(184, 26);
             this.addCategoryToolStripMenuItem.Text = "Add Category";
             this.addCategoryToolStripMenuItem.Click += new System.EventHandler(this.addCategoryToolStripMenuItem_Click);
             // 
             // exitToolStripMenuItem
             // 
             this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-            this.exitToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.exitToolStripMenuItem.Size = new System.Drawing.Size(184, 26);
             this.exitToolStripMenuItem.Text = "Exit";
             this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
-            // 
-            // helpToolStripMenuItem
-            // 
-            this.helpToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.aboutUsToolStripMenuItem});
-            this.helpToolStripMenuItem.Name = "helpToolStripMenuItem";
-            this.helpToolStripMenuItem.Size = new System.Drawing.Size(55, 24);
-            this.helpToolStripMenuItem.Text = "Help";
-            // 
-            // aboutUsToolStripMenuItem
-            // 
-            this.aboutUsToolStripMenuItem.Name = "aboutUsToolStripMenuItem";
-            this.aboutUsToolStripMenuItem.Size = new System.Drawing.Size(151, 26);
-            this.aboutUsToolStripMenuItem.Text = "About us";
             // 
             // comboBox1
             // 
@@ -192,11 +176,21 @@
             this.label2.TabIndex = 10;
             this.label2.Text = "Filter by category:";
             // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(687, 39);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(53, 16);
+            this.label3.TabIndex = 11;
+            this.label3.Text = "Search:";
+            // 
             // HomeForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(927, 450);
+            this.ClientSize = new System.Drawing.Size(848, 419);
+            this.Controls.Add(this.label3);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.comboBox2);
             this.Controls.Add(this.textBox1);
@@ -207,7 +201,9 @@
             this.Controls.Add(this.buttonAdd);
             this.Controls.Add(this.listView1);
             this.Controls.Add(this.menuStrip1);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.MainMenuStrip = this.menuStrip1;
+            this.MaximizeBox = false;
             this.Name = "HomeForm";
             this.Text = "Home Inventory Application";
             this.Load += new System.EventHandler(this.Form1_Load);
@@ -231,11 +227,10 @@
         private System.Windows.Forms.ComboBox comboBox1;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.TextBox textBox1;
-        private System.Windows.Forms.ToolStripMenuItem helpToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem aboutUsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem liveChartToolStripMenuItem;
         private System.Windows.Forms.ComboBox comboBox2;
         private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label label3;
     }
 }
 

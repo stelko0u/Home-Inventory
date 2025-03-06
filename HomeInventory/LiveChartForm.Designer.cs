@@ -36,15 +36,15 @@
             // 
             // cartesianChart1
             // 
-            this.cartesianChart1.Location = new System.Drawing.Point(234, 39);
+            this.cartesianChart1.Location = new System.Drawing.Point(26, 76);
             this.cartesianChart1.Name = "cartesianChart1";
-            this.cartesianChart1.Size = new System.Drawing.Size(1142, 751);
+            this.cartesianChart1.Size = new System.Drawing.Size(1142, 461);
             this.cartesianChart1.TabIndex = 0;
             this.cartesianChart1.Text = "cartesianChart1";
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(27, 39);
+            this.button1.Location = new System.Drawing.Point(26, 12);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(128, 37);
             this.button1.TabIndex = 1;
@@ -54,7 +54,7 @@
             // 
             // button2
             // 
-            this.button2.Location = new System.Drawing.Point(27, 91);
+            this.button2.Location = new System.Drawing.Point(183, 12);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(128, 37);
             this.button2.TabIndex = 2;
@@ -64,9 +64,9 @@
             // 
             // cartesianChart2
             // 
-            this.cartesianChart2.Location = new System.Drawing.Point(234, 39);
+            this.cartesianChart2.Location = new System.Drawing.Point(26, 76);
             this.cartesianChart2.Name = "cartesianChart2";
-            this.cartesianChart2.Size = new System.Drawing.Size(1142, 751);
+            this.cartesianChart2.Size = new System.Drawing.Size(1142, 461);
             this.cartesianChart2.TabIndex = 3;
             this.cartesianChart2.Text = "cartesianChart2";
             // 
@@ -74,13 +74,14 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1424, 871);
+            this.ClientSize = new System.Drawing.Size(1404, 565);
             this.Controls.Add(this.cartesianChart2);
             this.Controls.Add(this.button2);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.cartesianChart1);
             this.Name = "LiveChartForm";
             this.Text = "LiveChartForm";
+            this.Load += new System.EventHandler(this.LiveChartForm_Load);
             this.ResumeLayout(false);
 
         }

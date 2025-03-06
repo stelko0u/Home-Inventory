@@ -122,3 +122,13 @@ C:\Users\angel\OneDrive\Desktop\tu-varna\TSPProject\Home-Inventory\HomeInventory
 C:\Users\angel\OneDrive\Desktop\tu-varna\TSPProject\Home-Inventory\HomeInventory\bin\Debug\LiveCharts.Wpf.pdb
 C:\Users\angel\OneDrive\Desktop\tu-varna\TSPProject\Home-Inventory\HomeInventory\bin\Debug\LiveCharts.Wpf.xml
 C:\Users\angel\OneDrive\Desktop\tu-varna\TSPProject\Home-Inventory\HomeInventory\obj\Debug\HomeInventory.LiveChartForm.resources
+D:\TU-VARNA\VIsemester\tsp_project\HomeInventory\HomeInventory\bin\Debug\LiveCharts.dll
+D:\TU-VARNA\VIsemester\tsp_project\HomeInventory\HomeInventory\bin\Debug\LiveCharts.WinForms.dll
+D:\TU-VARNA\VIsemester\tsp_project\HomeInventory\HomeInventory\bin\Debug\LiveCharts.Wpf.dll
+D:\TU-VARNA\VIsemester\tsp_project\HomeInventory\HomeInventory\bin\Debug\LiveCharts.pdb
+D:\TU-VARNA\VIsemester\tsp_project\HomeInventory\HomeInventory\bin\Debug\LiveCharts.xml
+D:\TU-VARNA\VIsemester\tsp_project\HomeInventory\HomeInventory\bin\Debug\LiveCharts.WinForms.pdb
+D:\TU-VARNA\VIsemester\tsp_project\HomeInventory\HomeInventory\bin\Debug\LiveCharts.WinForms.xml
+D:\TU-VARNA\VIsemester\tsp_project\HomeInventory\HomeInventory\bin\Debug\LiveCharts.Wpf.pdb
+D:\TU-VARNA\VIsemester\tsp_project\HomeInventory\HomeInventory\bin\Debug\LiveCharts.Wpf.xml
+D:\TU-VARNA\VIsemester\tsp_project\HomeInventory\HomeInventory\obj\Debug\HomeInventory.LiveChartForm.resources
