@@ -151,6 +151,12 @@ namespace HomeInventory
             addCategory.ShowDialog();
         }
 
+        private void liveChartToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            LiveChartForm liveChartForm = new LiveChartForm();
+            liveChartForm.ShowDialog();
+        }
+
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
             List<(int Id, string Name, string Category, decimal Price, int Quantity, string Date)> sortedProducts;
@@ -236,13 +242,13 @@ namespace HomeInventory
 
         private void textBox1_TextChanged(object sender, EventArgs e)
         {
-            string searchText = textBox1.Text.ToLower(); // Get search text, convert to lowercase
+            string searchText = textBox1.Text.ToLower();
 
             List<(int Id, string Name, string Category, decimal Price, int Quantity, string Date)> allProducts = dbHelper.GetProducts();
 
             if (string.IsNullOrEmpty(searchText))
             {
-                UpdateListView(allProducts); // Show all products if search text is empty
+                UpdateListView(allProducts);
                 return;
             }
 
