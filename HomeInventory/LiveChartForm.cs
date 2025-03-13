@@ -94,7 +94,7 @@ namespace HomeInventory
 
             cartesianChart1.Visible = true;
             cartesianChart2.Visible = false;
-            cartesianChart2.Visible = false;
+            cartesianChart3.Visible = false;
         }
 
         private void LoadPriceChart()
@@ -133,7 +133,7 @@ namespace HomeInventory
 
             cartesianChart1.Visible = false;
             cartesianChart2.Visible = true;
-            cartesianChart2.Visible = false;
+            cartesianChart3.Visible = false;
         }
 
         private void LoadCategorySpendingChart()
@@ -154,7 +154,7 @@ namespace HomeInventory
             {
                 Title = "Money Spent",
                 Values = new ChartValues<double>(categorySpending.Values),
-                Fill = new System.Windows.Media.SolidColorBrush(System.Windows.Media.Color.FromRgb(76, 175, 80)) // Green color
+                Fill = new System.Windows.Media.SolidColorBrush(System.Windows.Media.Color.FromRgb(76, 175, 80))
             });
 
             cartesianChart3.AxisX.Add(new Axis
@@ -167,12 +167,12 @@ namespace HomeInventory
             cartesianChart3.AxisY.Add(new Axis
             {
                 Title = "Total Spent ($)",
-                LabelFormatter = value => value.ToString("C2") // Formats as currency
+                LabelFormatter = value => value.ToString("C2")
             });
 
             cartesianChart1.Visible = false;
             cartesianChart2.Visible = false;
-            cartesianChart3.Visible = true; // Show category chart
+            cartesianChart3.Visible = true;
         }
 
 
