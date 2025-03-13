@@ -6,6 +6,7 @@ using System.Windows.Forms;
 using LiveCharts;
 using LiveCharts.WinForms;
 using LiveCharts.Wpf;
+using TSPProject;
 
 namespace HomeInventory
 {
@@ -27,14 +28,19 @@ namespace HomeInventory
             this.AutoScaleMode = AutoScaleMode.Dpi;
             button1.Text = "Quantity Chart";
             button2.Text = "Price Chart";
+            button3.Text = "Category Chart";
         }
 
         private void InitializeCharts()
         {
             cartesianChart1.Visible = false;
             cartesianChart2.Visible = false;
+            cartesianChart3.Visible = false;
+
             cartesianChart1.Series = new SeriesCollection();
             cartesianChart2.Series = new SeriesCollection();
+            cartesianChart3.Series = new SeriesCollection();
+
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -45,6 +51,11 @@ namespace HomeInventory
         private void button2_Click(object sender, EventArgs e)
         {
             LoadPriceChart();
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            LoadCategorySpendingChart();
         }
 
         private void LoadQuantityChart()
@@ -82,6 +93,7 @@ namespace HomeInventory
             });
 
             cartesianChart1.Visible = true;
+            cartesianChart2.Visible = false;
             cartesianChart2.Visible = false;
         }
 
@@ -121,7 +133,48 @@ namespace HomeInventory
 
             cartesianChart1.Visible = false;
             cartesianChart2.Visible = true;
+            cartesianChart2.Visible = false;
         }
+
+        private void LoadCategorySpendingChart()
+        {
+            Dictionary<string, double> categorySpending = GetCategorySpending();
+
+            if (categorySpending.Count == 0)
+            {
+                MessageBox.Show("No data available for the chart.", "Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return;
+            }
+
+            cartesianChart3.Series.Clear();
+            cartesianChart3.AxisX.Clear();
+            cartesianChart3.AxisY.Clear();
+
+            cartesianChart3.Series.Add(new ColumnSeries
+            {
+                Title = "Money Spent",
+                Values = new ChartValues<double>(categorySpending.Values),
+                Fill = new System.Windows.Media.SolidColorBrush(System.Windows.Media.Color.FromRgb(76, 175, 80)) // Green color
+            });
+
+            cartesianChart3.AxisX.Add(new Axis
+            {
+                Title = "Categories",
+                Labels = categorySpending.Keys.ToList(),
+                Separator = new Separator { Step = 1, IsEnabled = false }
+            });
+
+            cartesianChart3.AxisY.Add(new Axis
+            {
+                Title = "Total Spent ($)",
+                LabelFormatter = value => value.ToString("C2") // Formats as currency
+            });
+
+            cartesianChart1.Visible = false;
+            cartesianChart2.Visible = false;
+            cartesianChart3.Visible = true; // Show category chart
+        }
+
 
         private List<(string Name, int Quantity, decimal Price)> GetProductData()
         {
@@ -144,9 +197,39 @@ namespace HomeInventory
             return products;
         }
 
+        private Dictionary<string, double> GetCategorySpending()
+        {
+            Dictionary<string, double> categorySpending = new Dictionary<string, double>();
+
+            using (var connection = new SQLiteConnection(connectionString))
+            {
+                connection.Open();
+                string query = @"
+                    SELECT c.Name, SUM(p.Price * p.Quantity) AS TotalSpent
+                    FROM Product p
+                    JOIN Category c ON p.CategoryId = c.Id
+                    GROUP BY c.Name;
+                ";
+
+                using (var command = new SQLiteCommand(query, connection))
+                using (var reader = command.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        string category = reader.GetString(0);
+                        double totalSpent = reader.IsDBNull(1) ? 0 : reader.GetDouble(1);
+                        categorySpending[category] = totalSpent;
+                    }
+                }
+            }
+
+            return categorySpending;
+        }
+
         private void LiveChartForm_Load(object sender, EventArgs e)
         {
 
         }
+
     }
 }
