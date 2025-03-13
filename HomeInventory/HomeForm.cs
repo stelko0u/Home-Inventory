@@ -8,6 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using ClosedXML.Excel;
 using TSPProject;
 
 namespace HomeInventory
@@ -263,6 +264,65 @@ namespace HomeInventory
                 .ToList();
 
             UpdateListView(filteredProducts);
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            ExportToExcel();
+        }
+
+        private void ExportToExcel()
+        {
+            if (listView1.Items.Count == 0)
+            {
+                MessageBox.Show("No data available to export.", "Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return;
+            }
+
+            using (SaveFileDialog saveFileDialog = new SaveFileDialog())
+            {
+                saveFileDialog.Filter = "Excel Files|*.xlsx";
+                saveFileDialog.Title = "Save as Excel File";
+                saveFileDialog.FileName = "InventoryData.xlsx";
+
+                if (saveFileDialog.ShowDialog() == DialogResult.OK)
+                {
+                    try
+                    {
+                        using (XLWorkbook wb = new XLWorkbook())
+                        {
+                            DataTable dt = new DataTable();
+                            dt.Columns.Add("ID");
+                            dt.Columns.Add("Name");
+                            dt.Columns.Add("Category");
+                            dt.Columns.Add("Quantity");
+                            dt.Columns.Add("Price");
+                            dt.Columns.Add("Date");
+
+                            foreach (ListViewItem item in listView1.Items)
+                            {
+                                dt.Rows.Add(
+                                    item.SubItems[0].Text,
+                                    item.SubItems[1].Text,
+                                    item.SubItems[2].Text,
+                                    item.SubItems[3].Text,
+                                    item.SubItems[4].Text,
+                                    item.SubItems[5].Text
+                                );
+                            }
+
+                            wb.Worksheets.Add(dt, "Products");
+                            wb.SaveAs(saveFileDialog.FileName);
+                        }
+
+                        MessageBox.Show("Data exported successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show("Error saving file: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+                }
+            }
         }
     }
 }
