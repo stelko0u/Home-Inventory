@@ -69,6 +69,7 @@
             this.Controls.Add(this.textBox1);
             this.Name = "AddCategory";
             this.Text = "AddCategory";
+            this.Load += new System.EventHandler(this.AddCategory_Load_1);
             this.ResumeLayout(false);
             this.PerformLayout();
 

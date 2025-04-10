@@ -54,7 +54,7 @@ namespace HomeInventory
         {
 
         }
-        private void PopulateListView()
+        public void PopulateListView()
         {
             productManager.AddItemsToListView();
         }
@@ -154,7 +154,8 @@ namespace HomeInventory
 
         private void liveChartToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            LiveChartForm liveChartForm = new LiveChartForm();
+            IInventoryService inventoryService = new InvertoryService();
+            LiveChartForm liveChartForm = new LiveChartForm(inventoryService);
             liveChartForm.ShowDialog();
         }
 
@@ -323,6 +324,11 @@ namespace HomeInventory
                     }
                 }
             }
+        }
+
+        private void menuStrip1_ItemClicked(object sender, ToolStripItemClickedEventArgs e)
+        {
+
         }
     }
 }

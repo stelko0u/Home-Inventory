@@ -6,7 +6,7 @@ using System.IO;
 
 namespace TSPProject
 {
-    class DatabaseHelper
+    public class DatabaseHelper
     {
         private static string dbPath = @"../../../storage.db";
         private static string connectionString = $"Data Source={dbPath};Version=3;";

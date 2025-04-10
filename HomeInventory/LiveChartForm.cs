@@ -14,13 +14,14 @@ namespace HomeInventory
     {
         private string connectionString = "Data Source=../../../storage.db;Version=3;";
 
-        public LiveChartForm()
+        private readonly IInventoryService _inventoryService;
+
+        public LiveChartForm(IInventoryService inventoryService)
         {
-            this.AutoScaleMode = AutoScaleMode.Dpi;
             InitializeComponent();
+            _inventoryService = inventoryService;
             InitializeUI();
             InitializeCharts();
-
         }
 
         private void InitializeUI()
@@ -60,7 +61,7 @@ namespace HomeInventory
 
         private void LoadQuantityChart()
         {
-            List<(string Name, int Quantity, decimal Price)> productData = GetProductData();
+            List<(string Name, int Quantity, decimal Price)> productData = _inventoryService.GetProductData();
             if (productData.Count == 0)
             {
                 MessageBox.Show("No data available for the chart.", "Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -99,7 +100,7 @@ namespace HomeInventory
 
         private void LoadPriceChart()
         {
-            List<(string Name, int Quantity, decimal Price)> productData = GetProductData();
+            List<(string Name, int Quantity, decimal Price)> productData = _inventoryService.GetProductData();
             if (productData.Count == 0)
             {
                 MessageBox.Show("No data available for the chart.", "Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -138,7 +139,7 @@ namespace HomeInventory
 
         private void LoadCategorySpendingChart()
         {
-            Dictionary<string, double> categorySpending = GetCategorySpending();
+            Dictionary<string, double> categorySpending = _inventoryService.GetCategorySpending();
 
             if (categorySpending.Count == 0)
             {
@@ -173,57 +174,6 @@ namespace HomeInventory
             cartesianChart1.Visible = false;
             cartesianChart2.Visible = false;
             cartesianChart3.Visible = true;
-        }
-
-
-        private List<(string Name, int Quantity, decimal Price)> GetProductData()
-        {
-            List<(string, int, decimal)> products = new List<(string, int, decimal)>();
-
-            using (SQLiteConnection connection = new SQLiteConnection(connectionString))
-            {
-                connection.Open();
-                string query = "SELECT Name, Quantity, Price FROM Product;";
-
-                using (SQLiteCommand command = new SQLiteCommand(query, connection))
-                using (SQLiteDataReader reader = command.ExecuteReader())
-                {
-                    while (reader.Read())
-                    {
-                        products.Add((reader.GetString(0), reader.GetInt32(1), reader.GetDecimal(2)));
-                    }
-                }
-            }
-            return products;
-        }
-
-        private Dictionary<string, double> GetCategorySpending()
-        {
-            Dictionary<string, double> categorySpending = new Dictionary<string, double>();
-
-            using (var connection = new SQLiteConnection(connectionString))
-            {
-                connection.Open();
-                string query = @"
-                    SELECT c.Name, SUM(p.Price * p.Quantity) AS TotalSpent
-                    FROM Product p
-                    JOIN Category c ON p.CategoryId = c.Id
-                    GROUP BY c.Name;
-                ";
-
-                using (var command = new SQLiteCommand(query, connection))
-                using (var reader = command.ExecuteReader())
-                {
-                    while (reader.Read())
-                    {
-                        string category = reader.GetString(0);
-                        double totalSpent = reader.IsDBNull(1) ? 0 : reader.GetDouble(1);
-                        categorySpending[category] = totalSpent;
-                    }
-                }
-            }
-
-            return categorySpending;
         }
 
         private void LiveChartForm_Load(object sender, EventArgs e)

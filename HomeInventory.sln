@@ -5,6 +5,8 @@ VisualStudioVersion = 17.11.35312.102
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HomeInventory", "HomeInventory\HomeInventory.csproj", "{320E0572-8679-4878-BD1C-B2D7983E32DB}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HomeInventory.Tests", "HomeInventory.Tests\HomeInventory.Tests.csproj", "{079430E4-71AC-4806-B0E6-5FE9063DA296}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{320E0572-8679-4878-BD1C-B2D7983E32DB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{320E0572-8679-4878-BD1C-B2D7983E32DB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{320E0572-8679-4878-BD1C-B2D7983E32DB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{079430E4-71AC-4806-B0E6-5FE9063DA296}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{079430E4-71AC-4806-B0E6-5FE9063DA296}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{079430E4-71AC-4806-B0E6-5FE9063DA296}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{079430E4-71AC-4806-B0E6-5FE9063DA296}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
